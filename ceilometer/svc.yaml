@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    endpoint: internal
+  labels:
+    ceilometer: proxy
+  name: ceilometer-proxy
+  namespace: openstack
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    owner: ceilometer
+    service: ceilometer
+  sessionAffinity: None
+  type: ClusterIP

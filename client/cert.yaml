@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-client
+  namespace: openstack
+spec:
+  commonName: client
+  duration: 8760h0m0s
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: rootca-public
+  secretName: cert-client
+  secretTemplate: {}
+  usages:
+  - client auth

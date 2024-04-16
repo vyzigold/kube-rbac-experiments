@@ -1,0 +1,6 @@
+# Using mTLS:
+oc rsh -c prometheus prometheus-metric-storage-0 curl https://ceilometer-proxy.openstack.svc:8443 --cacert /etc/prometheus/certs/secret_openstack_combined-ca-bundle_tls-ca-bundle.pem --cert /etc/prometheus/secrets/cert-client/tls.crt --key /etc/prometheus/secrets/cert-client/tls.key
+
+
+# Using token auth
+oc rsh -c prometheus prometheus-metric-storage-0 curl -H "Authorization: Bearer $(oc whoami -t)" https://ceilometer-proxy.openstack.svc:8443 --cacert /etc/prometheus/certs/secret_openstack_combined-ca-bundle_tls-ca-bundle.pem

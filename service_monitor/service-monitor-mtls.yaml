@@ -1,0 +1,31 @@
+apiVersion: monitoring.rhobs/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    service: metricStorage
+  name: metric-storage-mtls
+  namespace: openstack
+spec:
+  endpoints:
+  - interval: 30s
+    metricRelabelings:
+    - action: labeldrop
+      regex: pod
+    - action: labeldrop
+      regex: namespace
+    - action: labeldrop
+      regex: instance
+    - action: labeldrop
+      regex: job
+    - action: labeldrop
+      regex: publisher
+    scheme: https
+    tlsConfig:
+      certFile: /etc/prometheus/secrets/cert-client/tls.crt
+      keyFile: /etc/prometheus/secrets/cert-client/tls.key
+      caFile: /etc/prometheus/certs/secret_openstack_combined-ca-bundle_tls-ca-bundle.pem
+      serverName: ceilometer-proxy.openstack.svc
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      ceilometer: proxy

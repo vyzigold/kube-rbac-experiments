@@ -1,0 +1,30 @@
+apiVersion: monitoring.rhobs/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    service: metricStorage
+  name: metric-storage-token
+  namespace: openstack
+spec:
+  endpoints:
+  - interval: 30s
+    metricRelabelings:
+    - action: labeldrop
+      regex: pod
+    - action: labeldrop
+      regex: namespace
+    - action: labeldrop
+      regex: instance
+    - action: labeldrop
+      regex: job
+    - action: labeldrop
+      regex: publisher
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prometheus/certs/secret_openstack_combined-ca-bundle_tls-ca-bundle.pem
+      serverName: ceilometer-proxy.openstack.svc
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      ceilometer: proxy

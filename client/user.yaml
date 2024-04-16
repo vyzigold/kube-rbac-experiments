@@ -1,0 +1,7 @@
+apiVersion: user.openshift.io/v1
+groups: null
+identities:
+- client:client
+kind: User
+metadata:
+  name: client

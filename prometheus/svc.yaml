@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    core.openstack.org/ingress_create: "true"
+    core.openstack.org/ingress_target_port_name: web
+    endpoint: public
+  labels:
+    app.kubernetes.io/managed-by: observability-operator
+    app.kubernetes.io/name: metric-storage-prometheus
+    app.kubernetes.io/part-of: metric-storage
+  name: metric-storage-prometheus-proxy
+  namespace: openstack
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: web
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/part-of: metric-storage
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

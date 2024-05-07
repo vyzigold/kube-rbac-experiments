@@ -6,6 +6,7 @@ metadata:
   name: metric-storage-token
   namespace: openstack
 spec:
+  jobLabel: token
   endpoints:
   - interval: 30s
     metricRelabelings:
@@ -15,8 +16,6 @@ spec:
       regex: namespace
     - action: labeldrop
       regex: instance
-    - action: labeldrop
-      regex: job
     - action: labeldrop
       regex: publisher
     scheme: https

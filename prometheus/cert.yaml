@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: metric-storage-prometheus-svc
+  namespace: openstack
+spec:
+  dnsNames:
+  - metric-storage-prometheus-proxy.openstack.svc
+  - metric-storage-prometheus-proxy.openstack.svc.cluster.local
+  duration: 10950h0m0s
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: rootca-internal
+  secretName: cert-metric-storage-prometheus-proxy-svc
+  secretTemplate: {}
+  usages:
+  - key encipherment
+  - digital signature
+  - server auth

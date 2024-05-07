@@ -4,3 +4,9 @@ oc rsh -c prometheus prometheus-metric-storage-0 curl https://ceilometer-proxy.o
 
 # Using token auth
 oc rsh -c prometheus prometheus-metric-storage-0 curl -H "Authorization: Bearer $(oc whoami -t)" https://ceilometer-proxy.openstack.svc:8443 --cacert /etc/prometheus/certs/secret_openstack_combined-ca-bundle_tls-ca-bundle.pem
+
+# Unauthorized
+oc rsh -c prometheus prometheus-metric-storage-0 curl https://ceilometer-proxy.openstack.svc:8443 --cacert /etc/prometheus/certs/secret_openstack_combined-ca-bundle_tls-ca-bundle.pem
+
+# Query for reachable targets - you should see "1" at the "service: ceilometer-proxy" entry
+oc rsh openstackclient curl -H "Authorization: Bearer $(oc whoami -t)" https://metric-storage-prometheus-proxy.openstack.svc:8443/api/v1/query?query="up\{container='kube-rbac-proxy'\}" | jq

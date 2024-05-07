@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ceilometer-proxy-svc
+  namespace: openstack
+spec:
+  dnsNames:
+  - ceilometer-proxy.openstack.svc
+  - ceilometer-proxy.openstack.svc.cluster.local
+  duration: 10950h0m0s
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: rootca-internal
+  secretName: cert-ceilometer-proxy-svc
+  secretTemplate: {}
+  usages:
+  - key encipherment
+  - digital signature
+  - server auth
